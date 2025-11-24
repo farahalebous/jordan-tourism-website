@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="img/favicon.png" />
+  <title>Jordan Map - Discover Jordan</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <style>
+    #map {
+      width: 100%;
+      height: 600px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(28, 36, 52, 0.12);
+      z-index: 1;
+    }
+
+    .map-page {
+      background: linear-gradient(135deg, #f5f6fa 0%, #e8ecf1 100%);
+    }
+
+    .map__container {
+      padding-top: 8.75rem;
+      padding-bottom: 8.75rem;
+    }
+
+    .map__content {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .map__title {
+      margin-bottom: 1rem;
+    }
+
+    .map__text {
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 150%;
+      letter-spacing: 0.02em;
+      color: #556079;
+      font-size: 1.1rem;
+    }
+
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(28, 36, 52, 0.15);
+    }
+
+    .leaflet-popup-content {
+      margin: 1rem 1.25rem;
+      font-family: "Inter", sans-serif;
+    }
+
+    .leaflet-popup-content h3 {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #303a4d;
+      margin-bottom: 0.5rem;
+    }
+
+    .leaflet-popup-content p {
+      color: #556079;
+      line-height: 150%;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header">
+      <div class="header__container">
+        <a href="index.html" class="header__logo logo">Discover Jordan</a>
+        <div class="header__navigation">
+          <div class="header__menu menu">
+            <nav class="menu__body">
+              <nav class="menu__body">
+                <ul class="menu__list">
+                  <li class="menu__item"><a href="index.html" class="menu__link">Home</a></li>
+                  <li class="menu__item"><a href="plan.html" class="menu__link">Plan My Trip</a></li>
+                  <li class="menu__item"><a href="map.html" class="menu__link">Map</a></li>
+                  <li class="menu__item"><a href="services.html" class="menu__link">Destinations</a></li>
+                  <li class="menu__item"><a href="contact.html" class="menu__link">Contact</a></li>
+                </ul>
+                <a href="contact.html" class="actions-header__button">Book Your Tour</a>
+              </nav>
+          </div>
+          <div class="header__actions actions-header">
+            <button type="button" class="menu__icon icon-menu"><span></span></button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="page">
+      <section class="page__main main main_map main_pages">
+        <div class="main__container main__container_pages">
+          <h1 class="main__title">Explore Jordan on the Map</h1>
+          <div class="main__text main__text_pages">
+            Discover the locations of Jordan's most spectacular destinations
+          </div>
+        </div>
+      </section>
+      <section class="page__map map-page">
+        <div class="map__container">
+          <div class="map__content">
+            <h2 class="map__title title">Jordan's Top Destinations</h2>
+            <p class="map__text">
+              Click on the markers to learn more about each location and plan your journey through the Hashemite Kingdom.
+            </p>
+          </div>
+          <div id="map"></div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <div class="footer__container">
+        <a href="#" class="footer__policy">Privacy Policy – Terms & Conditions</a>
+        <a href="index.html" class="footer__logo logo">Discover Jordan</a>
+        <div class="footer__copyright">Copyright © 2025 Discover Jordan – All Rights Reserved</div>
+      </div>
+    </footer>
+  </div>
+  <script src="js/script.js"></script>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    // Initialize map centered on Jordan
+    const map = L.map('map').setView([31.9539, 35.9106], 7);
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Define markers with coordinates and popup content
+    const locations = [
+      {
+        name: 'Petra',
+        lat: 30.3285,
+        lng: 35.4444,
+        description: 'The ancient Nabatean city carved into rose-red cliffs. One of the New Seven Wonders of the World, featuring the iconic Treasury and numerous archaeological sites.'
+      },
+      {
+        name: 'Wadi Rum',
+        lat: 29.5833,
+        lng: 35.4167,
+        description: 'A stunning red desert landscape known as the Valley of the Moon. Experience jeep tours, camel rides, and overnight stays in Bedouin camps under the stars.'
+      },
+      {
+        name: 'Dead Sea',
+        lat: 31.5,
+        lng: 35.5,
+        description: 'The lowest point on Earth at 430 meters below sea level. Float in the mineral-rich waters and enjoy therapeutic mud treatments at world-class spa resorts.'
+      },
+      {
+        name: 'Jerash',
+        lat: 32.2808,
+        lng: 35.8961,
+        description: 'One of the best-preserved Roman cities outside of Italy. Explore colonnaded streets, ancient temples, the Oval Plaza, and Hadrian\'s Arch.'
+      },
+      {
+        name: 'Amman Citadel',
+        lat: 31.9539,
+        lng: 35.9342,
+        description: 'An ancient hilltop site in the heart of Amman featuring ruins from the Roman, Byzantine, and Umayyad periods. Offers panoramic views of the capital city.'
+      },
+      {
+        name: 'Ajloun',
+        lat: 32.3333,
+        lng: 35.75,
+        description: 'Home to the impressive Ajloun Castle, a 12th-century Islamic fortress built to protect against Crusader attacks. Surrounded by beautiful pine forests.'
+      },
+      {
+        name: 'Salt',
+        lat: 32.0389,
+        lng: 35.7272,
+        description: 'A historic town with beautiful Ottoman-era architecture. Known for its traditional stone buildings, markets, and rich cultural heritage.'
+      }
+    ];
+
+    // Add markers to the map
+    locations.forEach(location => {
+      const marker = L.marker([location.lat, location.lng]).addTo(map);
+      marker.bindPopup(`
+        <div>
+          <h3>${location.name}</h3>
+          <p>${location.description}</p>
+        </div>
+      `);
+    });
+  </script>
+</body>
+
+</html>
+

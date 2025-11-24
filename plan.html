@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="img/favicon.png" />
+  <title>Plan Your Trip - Discover Jordan</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header">
+      <div class="header__container">
+        <a href="index.html" class="header__logo logo">Discover Jordan</a>
+        <div class="header__navigation">
+          <div class="header__menu menu">
+            <nav class="menu__body">
+              <nav class="menu__body">
+                <ul class="menu__list">
+                  <li class="menu__item"><a href="index.html" class="menu__link">Home</a></li>
+                  <li class="menu__item"><a href="plan.html" class="menu__link">Plan My Trip</a></li>
+                  <li class="menu__item"><a href="map.html" class="menu__link">Map</a></li>
+                  <li class="menu__item"><a href="services.html" class="menu__link">Destinations</a></li>
+                  <li class="menu__item"><a href="contact.html" class="menu__link">Contact</a></li>
+                </ul>
+                <a href="contact.html" class="actions-header__button">Book Your Tour</a>
+              </nav>
+          </div>
+          <div class="header__actions actions-header">
+            <button type="button" class="menu__icon icon-menu"><span></span></button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="page">
+      <section class="page__main main main_plan main_pages">
+        <div class="main__container main__container_pages">
+          <h1 class="main__title">Plan Your Jordan Adventure</h1>
+          <div class="main__text main__text_pages">
+            Tell us a few details and we’ll craft a personalized itinerary just for you.
+          </div>
+        </div>
+      </section>
+      <section class="page__plan plan">
+        <div class="plan__container">
+          <div class="plan__content">
+            <h2 class="plan__title title">Trip Preferences</h2>
+            <p class="plan__text">
+              Choose the length of your stay, select your interests, and let us know what kind of experiences you’re
+              looking for across Jordan. We’ll combine hidden gems with must-see highlights to build your perfect trip.
+            </p>
+          </div>
+          <form class="plan__form">
+            <div class="plan__field">
+              <label for="plan-days">Number of Days</label>
+              <select id="plan-days" name="days">
+                <option value="">Select duration</option>
+                <option value="3">3 Days</option>
+                <option value="5">5 Days</option>
+                <option value="7">7 Days</option>
+                <option value="10">10 Days</option>
+                <option value="14">14 Days</option>
+              </select>
+            </div>
+            <div class="plan__field">
+              <span class="plan__label">Interests</span>
+              <div class="plan__checkboxes">
+                <label class="plan__checkbox">
+                  <input type="checkbox" name="interests" value="history" />
+                  <span>History & Archaeology</span>
+                </label>
+                <label class="plan__checkbox">
+                  <input type="checkbox" name="interests" value="nature" />
+                  <span>Nature & Landscapes</span>
+                </label>
+                <label class="plan__checkbox">
+                  <input type="checkbox" name="interests" value="adventure" />
+                  <span>Adventure & Desert</span>
+                </label>
+                <label class="plan__checkbox">
+                  <input type="checkbox" name="interests" value="wellness" />
+                  <span>Wellness & Relaxation</span>
+                </label>
+                <label class="plan__checkbox">
+                  <input type="checkbox" name="interests" value="food" />
+                  <span>Food & Culinary</span>
+                </label>
+              </div>
+            </div>
+            <div class="plan__field">
+              <label for="plan-budget">Budget</label>
+              <select id="plan-budget" name="budget">
+                <option value="">Select budget</option>
+                <option value="explorer">Explorer (Value)</option>
+                <option value="comfort">Comfort (4-star)</option>
+                <option value="luxury">Luxury (5-star)</option>
+              </select>
+            </div>
+            <div class="plan__field plan__toggles">
+              <div class="plan__toggle">
+                <span>Include Hidden Spots?</span>
+                <label class="toggle">
+                  <input type="checkbox" name="hidden_spots" />
+                  <span class="toggle__slider"></span>
+                </label>
+              </div>
+              <div class="plan__toggle">
+                <span>Include Famous Places?</span>
+                <label class="toggle">
+                  <input type="checkbox" name="famous_places" checked />
+                  <span class="toggle__slider"></span>
+                </label>
+              </div>
+              <div class="plan__toggle">
+                <span>Include Local Cultural Experiences?</span>
+                <label class="toggle">
+                  <input type="checkbox" name="cultural_experiences" checked />
+                  <span class="toggle__slider"></span>
+                </label>
+              </div>
+            </div>
+            <button type="submit" class="plan__button button">Generate Itinerary</button>
+          </form>
+        </div>
+      </section>
+      <section class="page__itinerary itinerary" id="itinerary-section" style="display: none;">
+        <div class="itinerary__container">
+          <div class="itinerary__header">
+            <h2 class="itinerary__title title">Your Personalized Itinerary</h2>
+            <p class="itinerary__subtitle">Your <span id="itinerary-days">0</span>-day Jordan adventure</p>
+          </div>
+          <div class="itinerary__days" id="itinerary-days-container">
+            <!-- Day cards will be inserted here -->
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <div class="footer__container">
+        <a href="#" class="footer__policy">Privacy Policy – Terms & Conditions</a>
+        <a href="index.html" class="footer__logo logo">Discover Jordan</a>
+        <div class="footer__copyright">Copyright © 2025 Discover Jordan – All Rights Reserved</div>
+      </div>
+    </footer>
+  </div>
+  <script src="js/script.js"></script>
+  <script>
+    // API endpoint - adjust if your backend is on a different URL
+    const API_URL = 'http://localhost:8000';
+
+    // Form submission handler
+    document.querySelector('.plan__form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      // Get form values
+      const days = document.getElementById('plan-days').value;
+      if (!days) {
+        alert('Please select the number of days');
+        return;
+      }
+
+      const interests = Array.from(document.querySelectorAll('input[name="interests"]:checked'))
+        .map(checkbox => checkbox.value);
+      
+      const budget = document.getElementById('plan-budget').value;
+      
+      const includeHiddenSpots = document.querySelector('input[name="hidden_spots"]').checked;
+      const includeFamousPlaces = document.querySelector('input[name="famous_places"]').checked;
+      const includeCulturalExperiences = document.querySelector('input[name="cultural_experiences"]').checked;
+
+      // Prepare request data
+      const requestData = {
+        days: parseInt(days),
+        interests: interests,
+        budget: budget || null,
+        include_hidden_spots: includeHiddenSpots,
+        include_famous_places: includeFamousPlaces,
+        include_cultural_experiences: includeCulturalExperiences
+      };
+
+      // Show loading state
+      const button = document.querySelector('.plan__button');
+      const originalText = button.textContent;
+      button.textContent = 'Generating...';
+      button.disabled = true;
+
+      try {
+        // POST to /generate endpoint
+        const response = await fetch(`${API_URL}/generate`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const itinerary = await response.json();
+        
+        // Display itinerary
+        displayItinerary(itinerary);
+        
+        // Scroll to itinerary section
+        document.getElementById('itinerary-section').scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+
+      } catch (error) {
+        console.error('Error generating itinerary:', error);
+        alert('Failed to generate itinerary. Please make sure the backend server is running at ' + API_URL);
+      } finally {
+        // Reset button
+        button.textContent = originalText;
+        button.disabled = false;
+      }
+    });
+
+    // Display itinerary function
+    function displayItinerary(itinerary) {
+      const section = document.getElementById('itinerary-section');
+      const daysContainer = document.getElementById('itinerary-days-container');
+      const daysSpan = document.getElementById('itinerary-days');
+      
+      // Update days count
+      daysSpan.textContent = itinerary.days;
+      
+      // Clear previous content
+      daysContainer.innerHTML = '';
+      
+      // Create day cards
+      itinerary.itinerary.forEach(dayData => {
+        const dayCard = document.createElement('div');
+        dayCard.className = 'itinerary__day';
+        
+        const dayHeader = document.createElement('div');
+        dayHeader.className = 'itinerary__day-header';
+        dayHeader.innerHTML = `
+          <h3 class="itinerary__day-title">Day ${dayData.day}</h3>
+          <span class="itinerary__day-count">${dayData.stops.length} ${dayData.stops.length === 1 ? 'stop' : 'stops'}</span>
+        `;
+        
+        const activitiesContainer = document.createElement('div');
+        activitiesContainer.className = 'itinerary__activities';
+        
+        dayData.stops.forEach((stop, index) => {
+          const activityCard = document.createElement('div');
+          activityCard.className = 'itinerary__activity';
+          const timeLabel = index === 0 ? 'Morning' : index === 1 ? 'Afternoon' : 'Evening';
+          const bookingUrl = `https://example.com/book?spot=${encodeURIComponent(stop.name || 'jordan-experience')}`;
+          activityCard.innerHTML = `
+            <div class="itinerary__activity-header">
+              <h4 class="itinerary__activity-name">${stop.name}</h4>
+              <span class="itinerary__activity-time">${timeLabel}</span>
+            </div>
+            <p class="itinerary__activity-description">${stop.description}</p>
+            ${stop.tips ? `<div class="itinerary__activity-tips"><strong>💡 Tips:</strong> ${stop.tips}</div>` : ''}
+            <div class="itinerary__activity-actions">
+              <a href="${bookingUrl}" target="_blank" rel="noopener" class="itinerary__activity-book">Book Experience</a>
+              <a href="map.html" class="itinerary__activity-link">View on Map</a>
+            </div>
+          `;
+          activitiesContainer.appendChild(activityCard);
+        });
+        
+        dayCard.appendChild(dayHeader);
+        dayCard.appendChild(activitiesContainer);
+        daysContainer.appendChild(dayCard);
+      });
+      
+      // Show itinerary section
+      section.style.display = 'block';
+    }
+  </script>
+</body>
+
+</html>
+
+
