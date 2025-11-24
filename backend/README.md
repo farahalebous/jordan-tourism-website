@@ -1,6 +1,6 @@
 # Discover Jordan API
 
-A simple FastAPI backend for the Discover Jordan tourism website with OpenAI integration.
+A simple FastAPI backend for the Discover Jordan tourism website with rule-based itinerary generation.
 
 ## Installation
 
@@ -9,16 +9,7 @@ A simple FastAPI backend for the Discover Jordan tourism website with OpenAI int
 pip install -r requirements.txt
 ```
 
-2. Set up OpenAI API key:
-   - Get your API key from https://platform.openai.com/api-keys
-   - Create a `.env` file in the backend directory:
-   ```bash
-   cp .env.example .env
-   ```
-   - Edit `.env` and add your OpenAI API key:
-   ```
-   OPENAI_API_KEY=your_actual_api_key_here
-   ```
+**Note:** No API keys or external services required! The system uses a free rule-based algorithm.
 
 ## Running the Server
 
@@ -53,7 +44,7 @@ Returns a list of all Jordan tourist spots with their details.
 ```
 
 ### POST /generate
-Generates a personalized itinerary based on user preferences using OpenAI GPT.
+Generates a personalized itinerary based on user preferences using a rule-based system (no external APIs required).
 
 **Request Body:**
 ```json
@@ -87,7 +78,7 @@ Generates a personalized itinerary based on user preferences using OpenAI GPT.
 }
 ```
 
-**Note:** This endpoint requires an OpenAI API key to be set in the `.env` file.
+**Note:** This endpoint uses a free rule-based system - no API keys or external services required!
 
 ## API Documentation
 
